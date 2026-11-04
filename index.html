@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1f3864"><link rel="apple-touch-icon" href="icon-192.png"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>متابعة عودات الإجازات</title>
+<link rel="icon" href="icon-192.png"><text y='.9em' font-size='90'>📋</text></svg>">
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--ink:#1a2233;--mut:#5b6678;--line:#d5dbe6;--navy:#1f3864;--grn:#2e7d32;--soft:#d9e2f3;--bad:#b42318;--badbg:#fde8e6;--hl:#fff4cc;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151f;--card:#1a2130;--ink:#e8edf6;--mut:#9aa6ba;--line:#2e3a50;--navy:#6f93d8;--grn:#66bb6a;--soft:#243350;--bad:#ff8a80;--badbg:#3b1f1f;--hl:#3a3418;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10151f;--card:#1a2130;--ink:#e8edf6;--mut:#9aa6ba;--line:#2e3a50;--navy:#6f93d8;--grn:#66bb6a;--soft:#243350;--bad:#ff8a80;--badbg:#3b1f1f;--hl:#3a3418;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Segoe UI",Tahoma,Arial,sans-serif;max-width:100%;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--navy);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--navy);color:#fff;padding:10px 14px}
+[data-theme="dark"] header,[data-theme="dark"] body::before{background:#243350}
+h1{font-size:17px;margin:0 0 8px}
+nav{display:flex;gap:6px}
+nav button{flex:1;padding:9px;border:0;border-radius:8px;background:rgba(255,255,255,.18);color:#fff;font:inherit;font-weight:700}
+nav button.on{background:#fff;color:#1f3864}
+main{padding:12px;max-width:900px;margin:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.kpi b{display:block;font-size:26px;color:var(--navy)}
+.kpi span{font-size:12px;color:var(--mut)}
+.wk{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.wk button{padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
+.wk div{text-align:center;font-weight:700;flex:1}
+.sc{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:520px;background:var(--card)}
+th,td{padding:7px 6px;text-align:center;border-bottom:1px solid var(--line);font-size:13px}
+th{background:var(--navy);color:#fff;font-size:12px}
+[data-theme="dark"] th{color:#10151f}
+td:first-child,th:first-child{text-align:right;position:sticky;right:0;background:inherit;min-width:110px}
+td:first-child{background:var(--card);font-weight:600}
+tr.sub td{background:var(--soft);font-weight:700;color:var(--navy)}
+tr.tot td{background:var(--navy);color:#fff;font-weight:700}
+td.z{color:var(--mut);opacity:.45}
+.today{background:var(--hl)}
+label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pv{margin-top:10px;padding:10px;border-radius:8px;background:var(--soft);font-size:14px}
+.warn{margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--badbg);color:var(--bad);font-weight:700;font-size:14px}
+.btn{width:100%;margin-top:12px;padding:12px;border:0;border-radius:10px;background:var(--grn);color:#fff;font:inherit;font-weight:700;font-size:16px}
+.btn:disabled{opacity:.5}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
+.row.dup{background:var(--badbg);padding-inline:8px;border-radius:8px}
+.row small{display:block;color:var(--mut)}
+.row .n{font-size:20px;font-weight:700;color:var(--navy);min-width:38px;text-align:center}
+.del{padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--bad);font:inherit;font-size:13px}
+.note{font-size:12px;color:var(--mut);text-align:center;margin:8px 0}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div id="lg" class="hide" style="position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px"><div class="card" style="width:100%;max-width:360px"><h1 style="color:var(--navy)">📋 تسجيل الدخول</h1><label>البريد الإلكتروني</label><input id="em" type="email" autocomplete="username"><label>كلمة المرور</label><input id="pw" type="password" autocomplete="current-password"><div class="warn" id="le" style="background:none;padding:0"></div><button class="btn" id="li">دخول</button><p class="note">أول دخول يحتاج اتصال بالإنترنت</p></div></div>
+<header>
+<h1>📋 متابعة عودات الإجازات — قطاع تأمين شمال سيناء</h1>
+<nav><button id="t1" class="on">الداشبورد</button><button id="t2">إدخال الأعداد</button></nav>
+</header>
+<main>
+<section id="v1">
+<div class="kpis" id="kpis"></div>
+<div class="wk"><button id="nx">‹ التالي</button><div id="wl"></div><button id="pv">السابق ›</button></div>
+<div class="sc"><table id="tb"></table></div>
+<p class="note">الجمعة تظهر في السبت. قيادة القطاع والفوج 1 ح.ح: الخميس يظهر في السبت وباقي الأيام في اليوم التالي.</p>
+</section>
+<section id="v2" class="hide">
+<div class="card">
+<label>البند (الوحدة)</label><select id="fu"></select>
+<div class="g2"><div><label>تاريخ النزول الفعلي</label><input type="date" id="fd"></div>
+<div><label>مدة الإجازة (أيام)</label><input type="number" id="fy" inputmode="numeric" min="1" max="365"></div></div>
+<div class="g2"><div><label>العدد</label><input type="number" id="fc" inputmode="numeric" min="1" max="5000"></div>
+<div><label>تعديل تاريخ الظهور (اختياري)</label><input type="date" id="fo"></div></div>
+<label>ملاحظات (اختياري)</label><input type="text" id="fn">
+<div class="pv" id="pvw">اكتب النزول والمدة لتظهر العودة</div>
+<div id="wr"></div>
+<button class="btn" id="sv" disabled>حفظ</button>
+</div>
+<div class="card"><b>آخر الإدخالات</b><div id="ls"></div></div>
+<div class="card"><button class="btn" id="lo" style="margin:0;background:var(--bad)">تسجيل خروج</button></div>
+</section>
+<p class="note" id="st"></p>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
